@@ -78,6 +78,40 @@ function parseRequest(req) {
     body: null,
     query: null
   }
+  const cleanStr = rawGETRequestComplex.replaceAll('\n', ' ')
+  const reqArr = cleanStr.split(' ')
+  if (reqArr[0] === '') {
+    reqArr.shift()
+  }
+  if (reqArr[reqArr.length - 1] === '') {
+    reqArr.pop()
+  }
+  // formatting request
+
+  // reqArr
+  request.method = reqArr.shift()
+  // reqArr
+  // method done
+
+  if (reqArr[0].indexOf('?') !== -1) {
+    const subArray = reqArr[0].split('?')
+    request.path = subArray.shift()
+    reqArr.shift()
+    const anotherArray = subArray[0].split('=')
+    request.query = {
+      [anotherArray[0]]: anotherArray[1]
+    }
+  } else {
+    request.path = reqArr.shift()
+  }
+  // reqArr
+  // path done, and query if present
+
+  reqArr.shift()
+  // reqArr
+  // remove unecessary element
+
+  // request
 
   // call the other functions below as needed
 
